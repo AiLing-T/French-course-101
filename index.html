@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Allons-y! — Французька для українців</title>
+  <title>Allons-y! — Французька для початківців</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -208,50 +208,8 @@
       position: relative;
       width: 100%;
     }
-    .split-top {
-      background: var(--ua-blue);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 0;
-      flex: 1;
-      overflow: hidden;
-    }
-    .split-bottom {
-      background: var(--ua-yellow);
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 0;
-      flex: 1;
-      overflow: hidden;
-    }
 
-    .word-half {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(3.5rem, 7vw, 7rem);
-      line-height: 1;
-      letter-spacing: -2px;
-      display: block;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.1s forwards;
-      /* use overflow hidden on parent + negative margin to split */
-      white-space: nowrap;
-    }
-    /* top half: white text, show only top 50% */
-    .word-top {
-      color: white;
-      margin-bottom: calc(-0.5em);
-      padding-bottom: 0;
-    }
-    /* bottom half: ua-blue text, show only bottom 50% */
-    .word-bottom {
-      color: var(--ua-blue);
-      margin-top: calc(-0.5em);
-      padding-top: 0;
-    }
-
+    
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -424,27 +382,15 @@
 
   <section class="hero">
     <div class="hero-text">
-      <p class="hero-eyebrow">🇺🇦 Французька для українців 🇫🇷</p>
+      <p class="hero-eyebrow">🇺🇦 Французька для початківців 🇫🇷</p>
       <h1 class="hero-title">
         Вивчай<br>
         <em>французьку</em><br>
-        крок за кроком
+        у своєму темпі
       </h1>
       <p class="hero-sub">Інтерактивні уроки, флеш-картки, вікторини та ігри зі словами — все в одному місці.</p>
-      <p class="hero-sub-fr">Des leçons interactives, des flashcards et des quiz — tout en un.</p>
       <a class="btn-start" href="lessons/lesson1.html">Почати Leçon 1 →</a>
     </div>
-
-    <!-- Split "Bonjour" across the flag colours -->
-    <div class="hero-visual">
-      <div class="split-top">
-        <span class="word-half word-top">Bonjour</span>
-      </div>
-      <div class="split-bottom">
-        <span class="word-half word-bottom">Bonjour</span>
-      </div>
-    </div>
-  </section>
 
   <div class="progress-bar">
     <span>Ваш прогрес</span>
@@ -472,7 +418,7 @@
       </div>
       <div class="card-arrow">→</div>
     </a>
-
+<!--
     <a class="lesson-card open" href="lessons/lesson2.html">
       <div class="card-status status-open">▶</div>
       <div class="card-number">Leçon 2</div>
@@ -527,10 +473,10 @@
     </a>
 
   </div>
-
+-->
   <footer>
-    <div>© 2026 Allons-y! 🇺🇦🇫🇷 — зроблено з любов'ю</div>
-    <div>Усі уроки безкоштовні для учнів</div>
+    <div>© 2026 Allons-y! 🇺🇦🇫🇷 — produit en Ukraine à l'aide d'IA dans les flammes de la guerre</div>
+    <div>Усі уроки безкоштовні</div>
   </footer>
 
 </body>
