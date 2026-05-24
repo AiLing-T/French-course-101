@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leçon 1 — Привітання та знайомство</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #faf6f0;
+      --ink: #1a1208;
+      --blue: #002395;
+      --ua-blue: #005BBB;
+      --ua-yellow: #FFD500;
+      --red: #ED2939;
+      --soft: #f0ebe1;
+      --mid: #8a7a60;
+      --green: #2e7d32;
+      --green-light: #e8f5e9;
+      --red-light: #fde8ea;
+    }
+    body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+    /* ── NAV ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem; border-bottom: 1.5px solid #e0d8cc;
+      position: sticky; top: 0; background: var(--cream); z-index: 100;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--blue); text-decoration: none; }
+    .logo span { color: var(--red); font-style: italic; }
+    .back-btn { font-size: 0.82rem; color: var(--mid); text-decoration: none; font-weight: 500; letter-spacing: 0.05em; transition: color .2s; }
+    .back-btn:hover { color: var(--ua-blue); }
+
+    /* ── LESSON HEADER ── */
+    .lesson-hero {
+      background: var(--ua-blue); color: white;
+      padding: 3rem; position: relative; overflow: hidden;
+    }
+    .lesson-hero::after {
+      content: ''; position: absolute; width: 350px; height: 350px;
+      border-radius: 50%; background: rgba(255,213,0,0.12);
+      top: -100px; right: -80px;
+    }
+    .lesson-tag { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.8rem; }
+    .lesson-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; margin-bottom: 0.6rem; }
+    .lesson-sub { font-size: 0.95rem; opacity: 0.8; font-style: italic; }
+
+    /* ── PROGRESS STEPS ── */
+    .steps-nav {
+      display: flex; gap: 0; border-bottom: 1.5px solid #e0d8cc;
+      overflow-x: auto; background: white;
+    }
+    .step-btn {
+      flex: 1; min-width: 100px; padding: 1rem 0.5rem; border: none;
+      background: white; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500; color: var(--mid);
+      border-bottom: 3px solid transparent; transition: all .2s;
+      display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+    }
+    .step-btn .step-icon { font-size: 1.1rem; }
+    .step-btn.active { color: var(--ua-blue); border-bottom-color: var(--ua-blue); background: #f5f9ff; }
+    .step-btn.completed { color: var(--green); border-bottom-color: var(--green); }
+    .step-btn:hover:not(.active) { background: var(--soft); }
+
+    /* ── SECTIONS ── */
+    .section { display: none; padding: 2.5rem 3rem; max-width: 860px; margin: 0 auto; }
+    .section.active { display: block; }
+    .section-heading {
+      font-family: 'Playfair Display', serif; font-size: 1.6rem;
+      margin-bottom: 0.4rem; color: var(--ink);
+    }
+    .section-intro { font-size: 0.9rem; color: var(--mid); margin-bottom: 2rem; line-height: 1.7; }
+
+    /* ── VOCAB TABLE ── */
+    .vocab-grid { display: grid; gap: 1px; background: #e0d8cc; border: 1px solid #e0d8cc; border-radius: 4px; overflow: hidden; margin-bottom: 2rem; }
+    .vocab-row {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      background: var(--cream); padding: 1rem 1.2rem; gap: 1rem;
+      transition: background .15s;
+    }
+    .vocab-row:hover { background: var(--soft); }
+    .vocab-row.header { background: var(--ua-blue); color: white; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+    .vocab-fr { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: var(--blue); }
+    .vocab-ua { font-size: 0.9rem; color: var(--ink); }
+    .vocab-note { font-size: 0.78rem; color: var(--mid); font-style: italic; }
+
+    /* ── CONJUGATION TABLE ── */
+    .conj-wrap { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .conj-card { flex: 1; min-width: 240px; border: 1.5px solid #e0d8cc; border-radius: 4px; overflow: hidden; }
+    .conj-title { background: var(--blue); color: white; padding: 0.7rem 1.2rem; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.05em; }
+    .conj-title em { font-style: italic; opacity: 0.85; font-weight: 300; margin-left: 0.4rem; }
+    .conj-row { display: grid; grid-template-columns: 1fr 1fr; padding: 0.65rem 1.2rem; gap: 0.5rem; border-bottom: 1px solid #f0ebe1; font-size: 0.9rem; }
+    .conj-row:last-child { border-bottom: none; }
+    .conj-row:nth-child(odd) { background: white; }
+    .conj-row:nth-child(even) { background: var(--cream); }
+    .conj-pronoun { color: var(--mid); font-size: 0.82rem; }
+    .conj-verb { font-family: 'Playfair Display', serif; font-style: italic; color: var(--blue); }
+
+    /* ── FLASHCARDS ── */
+    .flashcard-area { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+    .flashcard-counter { font-size: 0.8rem; color: var(--mid); }
+    .flashcard-scene { width: 100%; max-width: 480px; height: 220px; perspective: 1000px; cursor: pointer; }
+    .flashcard-inner {
+      width: 100%; height: 100%; position: relative;
+      transform-style: preserve-3d; transition: transform 0.5s ease;
+    }
+    .flashcard-scene.flipped .flashcard-inner { transform: rotateY(180deg); }
+    .flashcard-face {
+      position: absolute; inset: 0; backface-visibility: hidden;
+      border-radius: 8px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 2rem; gap: 0.8rem;
+    }
+    .flashcard-front { background: var(--ua-blue); color: white; }
+    .flashcard-back  { background: var(--ua-yellow); color: var(--ink); transform: rotateY(180deg); }
+    .card-word-fr { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2rem; }
+    .card-word-ua { font-size: 1.2rem; font-weight: 500; }
+    .card-hint    { font-size: 0.75rem; opacity: 0.6; letter-spacing: 0.1em; text-transform: uppercase; }
+    .card-note    { font-size: 0.82rem; font-style: italic; opacity: 0.75; }
+    .flashcard-nav { display: flex; gap: 1rem; align-items: center; }
+    .btn-nav {
+      background: white; border: 1.5px solid #e0d8cc; border-radius: 4px;
+      padding: 0.6rem 1.4rem; font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+      font-weight: 500; cursor: pointer; color: var(--ink); transition: all .2s;
+    }
+    .btn-nav:hover { background: var(--soft); border-color: var(--ua-blue); color: var(--ua-blue); }
+    .btn-nav:disabled { opacity: 0.35; cursor: default; }
+    .flip-hint { font-size: 0.78rem; color: var(--mid); margin-top: -0.5rem; }
+
+    /* ── QUIZ ── */
+    .quiz-q { margin-bottom: 2.5rem; }
+    .q-text { font-size: 1rem; font-weight: 500; margin-bottom: 1rem; line-height: 1.5; }
+    .q-fr   { font-family: 'Playfair Display', serif; font-style: italic; color: var(--blue); font-size: 1.2rem; display: block; margin-bottom: 0.6rem; }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .opt-btn {
+      padding: 0.8rem 1rem; border: 1.5px solid #e0d8cc; border-radius: 4px;
+      background: white; font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      cursor: pointer; text-align: left; transition: all .15s; color: var(--ink);
+    }
+    .opt-btn:hover:not(:disabled) { border-color: var(--ua-blue); background: #f0f6ff; }
+    .opt-btn.correct  { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 600; }
+    .opt-btn.wrong    { background: var(--red-light); border-color: var(--red); color: var(--red); }
+    .opt-btn:disabled { cursor: default; }
+    .q-feedback { font-size: 0.85rem; margin-top: 0.7rem; min-height: 1.2rem; font-style: italic; }
+    .q-feedback.ok  { color: var(--green); }
+    .q-feedback.bad { color: var(--red); }
+
+    /* ── MATCHING ── */
+    .match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    .match-col { display: flex; flex-direction: column; gap: 0.5rem; }
+    .match-item {
+      padding: 0.75rem 1rem; border: 1.5px solid #e0d8cc; border-radius: 4px;
+      background: white; cursor: pointer; font-size: 0.88rem; transition: all .15s;
+      text-align: center;
+    }
+    .match-item.fr-item { font-family: 'Playfair Display', serif; font-style: italic; color: var(--blue); font-size: 1rem; }
+    .match-item.selected { border-color: var(--ua-blue); background: #e8f0ff; }
+    .match-item.matched-ok { border-color: var(--green); background: var(--green-light); color: var(--green); cursor: default; }
+    .match-item.matched-err { border-color: var(--red); background: var(--red-light); color: var(--red); }
+    .match-result { font-size: 0.85rem; color: var(--mid); margin-top: 0.5rem; min-height: 1.2rem; }
+
+    /* ── SCORE / FINAL ── */
+    .score-box {
+      text-align: center; padding: 3rem 2rem; background: white;
+      border: 1.5px solid #e0d8cc; border-radius: 8px; margin-bottom: 2rem;
+    }
+    .score-emoji { font-size: 3.5rem; margin-bottom: 1rem; }
+    .score-num { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--ua-blue); }
+    .score-label { font-size: 0.9rem; color: var(--mid); margin-top: 0.3rem; }
+    .score-msg { margin-top: 1.2rem; font-size: 1rem; color: var(--ink); line-height: 1.6; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-block; background: var(--ua-blue); color: white;
+      padding: 0.85rem 2.2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 500; border: none; border-radius: 2px;
+      cursor: pointer; transition: background .2s, transform .15s; letter-spacing: 0.04em;
+    }
+    .btn-primary:hover { background: #003f8a; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-block; background: white; color: var(--ua-blue);
+      padding: 0.85rem 2.2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 500; border: 1.5px solid var(--ua-blue);
+      border-radius: 2px; cursor: pointer; transition: all .2s; letter-spacing: 0.04em;
+    }
+    .btn-secondary:hover { background: var(--soft); }
+    .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+    /* ── FINAL TEST ── */
+    .final-q { background: white; border: 1.5px solid #e0d8cc; border-radius: 6px; padding: 1.5rem; margin-bottom: 1rem; }
+    .final-q .q-text { font-size: 0.95rem; }
+    .final-input {
+      width: 100%; padding: 0.7rem 1rem; border: 1.5px solid #e0d8cc; border-radius: 4px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; margin-top: 0.7rem;
+      outline: none; transition: border-color .2s;
+    }
+    .final-input:focus { border-color: var(--ua-blue); }
+    .final-input.correct { border-color: var(--green); background: var(--green-light); }
+    .final-input.wrong   { border-color: var(--red);   background: var(--red-light); }
+
+    @media (max-width: 680px) {
+      header { padding: 1rem 1.2rem; }
+      .lesson-hero { padding: 2rem 1.2rem; }
+      .section { padding: 1.5rem 1.2rem; }
+      .vocab-row { grid-template-columns: 1fr 1fr; }
+      .vocab-note { display: none; }
+      .options { grid-template-columns: 1fr; }
+      .conj-wrap { flex-direction: column; }
+      .match-wrap { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="../index.html">🇺🇦🇫🇷 Allons-<span>y!</span></a>
+  <a class="back-btn" href="../index.html">← Усі уроки</a>
+</header>
+
+<div class="lesson-hero">
+  <div class="lesson-tag">Leçon 1 · Рівень A1</div>
+  <div class="lesson-title">Привітання та знайомство</div>
+  <div class="lesson-sub">Salutations et présentations</div>
+</div>
+
+<!-- STEP NAV -->
+<div class="steps-nav">
+  <button class="step-btn active" onclick="goTo(0)">
+    <span class="step-icon">📖</span>Слова
+  </button>
+  <button class="step-btn" onclick="goTo(1)">
+    <span class="step-icon">🔤</span>Дієслова
+  </button>
+  <button class="step-btn" onclick="goTo(2)">
+    <span class="step-icon">🃏</span>Флеш-картки
+  </button>
+  <button class="step-btn" onclick="goTo(3)">
+    <span class="step-icon">❓</span>Вікторина
+  </button>
+  <button class="step-btn" onclick="goTo(4)">
+    <span class="step-icon">🔗</span>Пари слів
+  </button>
+  <button class="step-btn" onclick="goTo(5)">
+    <span class="step-icon">🏁</span>Фінальний тест
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 0 — VOCABULARY
+══════════════════════════════════════════ -->
+<div class="section active" id="sec-0">
+  <h2 class="section-heading">Нові слова</h2>
+  <p class="section-intro">Вивчи ці фрази — вони основа французьких привітань. Зверни увагу коли яке привітання вживати залежно від часу доби.</p>
+
+  <!-- TIME OF DAY VISUALS -->
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:2rem;">
+
+    <!-- Ранок -->
+    <div style="border:1.5px solid #e0d8cc; border-radius:6px; overflow:hidden; text-align:center;">
+      <div style="background:#fff8e1; height:130px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem; position:relative;">
+        <!-- placeholder: замінити на <img src="images/matin.jpg" alt="Ранок" style="width:100%;height:100%;object-fit:cover"> -->
+        <div style="font-size:3rem;">🌅</div>
+        <div style="font-size:0.65rem; color:#b89800; letter-spacing:0.12em; text-transform:uppercase; font-weight:600;">Фото: ранок у Парижі</div>
+        <div style="position:absolute;top:6px;right:8px;font-size:0.6rem;color:#ccc;font-style:italic;">[ замінити на фото ]</div>
+      </div>
+      <div style="padding:0.8rem; background:white;">
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; color:var(--blue);">Bonjour</div>
+        <div style="font-size:0.78rem; color:var(--mid); margin-top:0.2rem;">Ранок — день · ~6:00–17:59</div>
+      </div>
+    </div>
+
+    <!-- Вечір -->
+    <div style="border:1.5px solid #e0d8cc; border-radius:6px; overflow:hidden; text-align:center;">
+      <div style="background:#e8eaf6; height:130px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem; position:relative;">
+        <!-- placeholder: замінити на <img src="images/soir.jpg" alt="Вечір" style="width:100%;height:100%;object-fit:cover"> -->
+        <div style="font-size:3rem;">🌆</div>
+        <div style="font-size:0.65rem; color:#5c6bc0; letter-spacing:0.12em; text-transform:uppercase; font-weight:600;">Фото: вечірній Париж</div>
+        <div style="position:absolute;top:6px;right:8px;font-size:0.6rem;color:#ccc;font-style:italic;">[ замінити на фото ]</div>
+      </div>
+      <div style="padding:0.8rem; background:white;">
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; color:var(--blue);">Bonsoir</div>
+        <div style="font-size:0.78rem; color:var(--mid); margin-top:0.2rem;">Вечір · ~18:00–23:59</div>
+      </div>
+    </div>
+
+    <!-- Неофіційно -->
+    <div style="border:1.5px solid #e0d8cc; border-radius:6px; overflow:hidden; text-align:center;">
+      <div style="background:#e8f5e9; height:130px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem; position:relative;">
+        <!-- placeholder: замінити на <img src="images/amis.jpg" alt="Друзі" style="width:100%;height:100%;object-fit:cover"> -->
+        <div style="font-size:3rem;">👋</div>
+        <div style="font-size:0.65rem; color:#388e3c; letter-spacing:0.12em; text-transform:uppercase; font-weight:600;">Фото: друзі, молодь</div>
+        <div style="position:absolute;top:6px;right:8px;font-size:0.6rem;color:#ccc;font-style:italic;">[ замінити на фото ]</div>
+      </div>
+      <div style="padding:0.8rem; background:white;">
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; color:var(--blue);">Salut</div>
+        <div style="font-size:0.78rem; color:var(--mid); margin-top:0.2rem;">Будь-коли · лише з друзями</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="vocab-grid">
+    <div class="vocab-row header">
+      <span>Французька</span><span>Українська</span><span>Примітка</span>
+    </div>
+    <div class="vocab-row"><span class="vocab-fr">Bonjour</span><span class="vocab-ua">Доброго дня / Привіт</span><span class="vocab-note">Офіційно, вдень</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Bonsoir</span><span class="vocab-ua">Добрий вечір</span><span class="vocab-note">Після ~18:00</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Salut</span><span class="vocab-ua">Привіт</span><span class="vocab-note">Неофіційно</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Au revoir</span><span class="vocab-ua">До побачення</span><span class="vocab-note">Офіційно</span></div>
+    <div class="vocab-row"><span class="vocab-fr">À bientôt</span><span class="vocab-ua">До скорого</span><span class="vocab-note">Неофіційно</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Je m'appelle…</span><span class="vocab-ua">Мене звуть…</span><span class="vocab-note">Знайомство</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Tu t'appelles…?</span><span class="vocab-ua">Як тебе звуть?</span><span class="vocab-note">До одного</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Ça va ?</span><span class="vocab-ua">Як справи?</span><span class="vocab-note">Неофіційно</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Ça va bien.</span><span class="vocab-ua">Добре, дякую.</span><span class="vocab-note">Відповідь</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Comment allez-vous ?</span><span class="vocab-ua">Як у вас справи?</span><span class="vocab-note">Офіційно / до кількох</span></div>
+    <div class="vocab-row"><span class="vocab-fr">Merci</span><span class="vocab-ua">Дякую</span><span class="vocab-note"></span></div>
+    <div class="vocab-row"><span class="vocab-fr">S'il vous plaît</span><span class="vocab-ua">Будь ласка</span><span class="vocab-note">Офіційно</span></div>
+  </div>
+
+  <!-- VIDEO PLACEHOLDER -->
+  <div style="margin-bottom:2rem;">
+    <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; margin-bottom:0.8rem;">🎬 Відео: почуй вимову</h3>
+    <div style="border:2px dashed #c0b8a8; border-radius:8px; background:#f7f3ee; padding:2.5rem 1rem; text-align:center; color:var(--mid);">
+      <div style="font-size:2.5rem; margin-bottom:0.6rem;">▶️</div>
+      <div style="font-size:0.9rem; font-weight:500; margin-bottom:0.3rem;">Місце для відео вчителя або YouTube-кліпу</div>
+      <div style="font-size:0.78rem; font-style:italic;">
+        Замінити на:<br>
+        <code style="background:#ede8e0; padding:0.2rem 0.5rem; border-radius:3px; font-size:0.75rem;">
+          &lt;iframe width="100%" height="315" src="https://www.youtube.com/embed/ВАШ_ID" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <h3 style="font-family:'Playfair Display',serif; font-size:1.2rem; margin-bottom:1rem; margin-top:0.5rem;">📝 Важливі нюанси</h3>
+
+  <!-- Note 1 -->
+  <div style="border:1.5px solid #e0d8cc; border-radius:6px; overflow:hidden; margin-bottom:1.2rem;">
+    <div style="background:var(--ua-blue); color:white; padding:0.75rem 1.2rem; font-size:0.85rem; font-weight:600;">
+      À bientôt &nbsp;vs&nbsp; À tout à l'heure
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#e0d8cc;">
+      <div style="background:var(--cream); padding:1.2rem;">
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; color:var(--blue); margin-bottom:0.5rem;">À bientôt</div>
+        <div style="font-size:0.88rem; line-height:1.7; color:var(--ink);">
+          «До скорого» — але <strong>невизначено</strong>.<br>
+          Побачимось… колись незабаром. Може завтра, може за тиждень.<br>
+          <span style="color:var(--mid); font-style:italic;">— Au revoir, à bientôt !<br>— До побачення, до скорого!</span>
+        </div>
+      </div>
+      <div style="background:var(--cream); padding:1.2rem;">
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; color:var(--blue); margin-bottom:0.5rem;">À tout à l'heure</div>
+        <div style="font-size:0.88rem; line-height:1.7; color:var(--ink);">
+          «До зустрічі» — але <strong>сьогодні, невдовзі</strong>.<br>
+          Ми точно побачимось ще раз цього ж дня — за годину, після уроку.<br>
+          <span style="color:var(--mid); font-style:italic;">— À tout à l'heure !<br>— До зустрічі (сьогодні)!</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:#fff8d6; padding:0.9rem 1.2rem; font-size:0.82rem; color:#7a5c00; line-height:1.6;">
+      💡 <strong>Підказка:</strong> «tout à l'heure» буквально означає «прямо зараз / за мить» — тому ця фраза лише для зустрічей того ж дня. Якщо сумніваєшся — безпечніше сказати <em>à bientôt</em>.
+    </div>
+  </div>
+
+  <!-- Note 2 -->
+  <div style="border:1.5px solid #fde8ea; border-radius:6px; overflow:hidden; margin-bottom:2rem;">
+    <div style="background:var(--red); color:white; padding:0.75rem 1.2rem; font-size:0.85rem; font-weight:600;">
+      ⚠️ Чому не варто казати «Adieu / Adieux»?
+    </div>
+    <div style="background:var(--cream); padding:1.2rem;">
+      <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; color:var(--red); margin-bottom:0.7rem;">Adieu (мн. Adieux)</div>
+      <div style="font-size:0.88rem; line-height:1.8; color:var(--ink);">
+        Слово <em>adieu</em> походить від <em>«à Dieu»</em> — «до Бога». Історично це прощання <strong>назавжди</strong> або на дуже довгий час — як перед далекою дорогою, на яку не повертаються.<br><br>
+        У сучасній французькій воно звучить <strong>надто драматично</strong> і навіть моторошно в побутовій розмові. Носії мови вживають його лише:
+        <ul style="margin: 0.6rem 0 0.6rem 1.2rem; line-height:2;">
+          <li>у літературі та поезії</li>
+          <li>коли хочуть підкреслити остаточність розставання</li>
+          <li>іноді в деяких регіонах Франції та Квебеку як звичайне «до побачення» — але це виняток</li>
+        </ul>
+        <div style="background:#fde8ea; border-radius:4px; padding:0.8rem 1rem; margin-top:0.5rem; font-size:0.82rem; color:#9b1323;">
+          ❌ <em>«Adieu, madame Lefebvre!»</em> — звучить так, ніби ви більше ніколи її не побачите.<br>
+          ✅ <em>«Au revoir, madame Lefebvre!»</em> — нейтрально і ввічливо.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Note 3: tutoyer / vouvoyer -->
+  <div style="border:1.5px solid #e0d8cc; border-radius:6px; overflow:hidden; margin-bottom:2rem;">
+    <div style="background:var(--ink); color:white; padding:0.75rem 1.2rem; font-size:0.85rem; font-weight:600;">
+      🇫🇷 Культурна особливість: tutoyer vs vouvoyer
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#e0d8cc;">
+      <div style="background:var(--cream); padding:1.2rem;">
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.15rem; color:var(--blue); margin-bottom:0.5rem;">Tutoyer — казати «tu»</div>
+        <div style="font-size:0.87rem; line-height:1.8; color:var(--ink);">
+          Звертання на <strong>«ти»</strong>.<br>
+          Використовують з:
+          <ul style="margin:0.4rem 0 0 1rem; line-height:2;">
+            <li>друзями та однолітками</li>
+            <li>дітьми та підлітками</li>
+            <li>членами сім'ї</li>
+            <li>домашніми тваринами 🐾</li>
+          </ul>
+          <span style="color:var(--mid); font-style:italic; font-size:0.8rem;">— Ça va, Thomas ? Tu t'appelles comment ?</span>
+        </div>
+      </div>
+      <div style="background:var(--cream); padding:1.2rem;">
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.15rem; color:var(--blue); margin-bottom:0.5rem;">Vouvoyer — казати «vous»</div>
+        <div style="font-size:0.87rem; line-height:1.8; color:var(--ink);">
+          Звертання на <strong>«ви»</strong> (поважна форма).<br>
+          Використовують з:
+          <ul style="margin:0.4rem 0 0 1rem; line-height:2;">
+            <li>незнайомими людьми</li>
+            <li>старшими за віком</li>
+            <li>вчителями, лікарями, начальниками</li>
+            <li>клієнтами та у сфері послуг</li>
+          </ul>
+          <span style="color:var(--mid); font-style:italic; font-size:0.8rem;">— Comment allez-vous, madame Dupont ?</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:#f0ebe1; padding:1rem 1.2rem; font-size:0.85rem; color:var(--ink); line-height:1.8;">
+      <strong>⚠️ Важливо для українців:</strong> В українській мові «ви» вживається ввічливо, але у французькій ця різниця <em>ще важливіша</em> і більш формалізована.<br>
+      Перейти з <em>vous</em> на <em>tu</em> — це крок у дружбу. Це роблять <strong>за взаємною згодою</strong>, часто з фразою:<br>
+      <span style="font-family:'Playfair Display',serif; font-style:italic; color:var(--blue);">«On se tutoie ?»</span> — «Будемо на ти?»<br><br>
+      💡 <strong>Правило для початківців:</strong> Якщо сумніваєшся — завжди починай з <em>vous</em>. Краще бути надто ввічливим, ніж образити.
+    </div>
+    <div style="background:#fff8d6; padding:0.8rem 1.2rem; font-size:0.82rem; color:#7a5c00; line-height:1.6;">
+      🎓 <strong>Цікавий факт:</strong> У деяких французьких компаніях (особливо стартапах) всі кажуть <em>tu</em> одне одному — навіть з директором. Але в державних установах та банках — завжди <em>vous</em>.
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="goTo(1)">Далі: Дієслова →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 1 — CONJUGATION
+══════════════════════════════════════════ -->
+<div class="section" id="sec-1">
+  <h2 class="section-heading">Дієслова уроку</h2>
+  <p class="section-intro">Два ключових дієслова для знайомства: <em>s'appeler</em> (звати) та <em>aller</em> (йти / почуватись). Вивчи форми для кожної особи.</p>
+
+  <div class="conj-wrap">
+    <div class="conj-card">
+      <div class="conj-title">S'appeler <em>— звати(ся)</em></div>
+      <div class="conj-row"><span class="conj-pronoun">je</span><span class="conj-verb">m'appelle</span></div>
+      <div class="conj-row"><span class="conj-pronoun">tu</span><span class="conj-verb">t'appelles</span></div>
+      <div class="conj-row"><span class="conj-pronoun">il / elle</span><span class="conj-verb">s'appelle</span></div>
+      <div class="conj-row"><span class="conj-pronoun">nous</span><span class="conj-verb">nous appelons</span></div>
+      <div class="conj-row"><span class="conj-pronoun">vous</span><span class="conj-verb">vous appelez</span></div>
+      <div class="conj-row"><span class="conj-pronoun">ils / elles</span><span class="conj-verb">s'appellent</span></div>
+    </div>
+    <div class="conj-card">
+      <div class="conj-title">Aller <em>— йти / почуватись</em></div>
+      <div class="conj-row"><span class="conj-pronoun">je</span><span class="conj-verb">vais</span></div>
+      <div class="conj-row"><span class="conj-pronoun">tu</span><span class="conj-verb">vas</span></div>
+      <div class="conj-row"><span class="conj-pronoun">il / elle</span><span class="conj-verb">va</span></div>
+      <div class="conj-row"><span class="conj-pronoun">nous</span><span class="conj-verb">allons</span></div>
+      <div class="conj-row"><span class="conj-pronoun">vous</span><span class="conj-verb">allez</span></div>
+      <div class="conj-row"><span class="conj-pronoun">ils / elles</span><span class="conj-verb">vont</span></div>
+    </div>
+    <div class="conj-card">
+      <div class="conj-title">Être <em>— бути</em></div>
+      <div class="conj-row"><span class="conj-pronoun">je</span><span class="conj-verb">suis</span></div>
+      <div class="conj-row"><span class="conj-pronoun">tu</span><span class="conj-verb">es</span></div>
+      <div class="conj-row"><span class="conj-pronoun">il / elle</span><span class="conj-verb">est</span></div>
+      <div class="conj-row"><span class="conj-pronoun">nous</span><span class="conj-verb">sommes</span></div>
+      <div class="conj-row"><span class="conj-pronoun">vous</span><span class="conj-verb">êtes</span></div>
+      <div class="conj-row"><span class="conj-pronoun">ils / elles</span><span class="conj-verb">sont</span></div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="goTo(0)">← Назад</button>
+    <button class="btn-primary" onclick="goTo(2)">Далі: Флеш-картки →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 2 — FLASHCARDS
+══════════════════════════════════════════ -->
+<div class="section" id="sec-2">
+  <h2 class="section-heading">Флеш-картки</h2>
+  <p class="section-intro">Клацни на картку, щоб побачити переклад. Перегортай усі картки перед вікториною.</p>
+
+  <div class="flashcard-area">
+    <div class="flashcard-counter" id="fc-counter">Картка 1 з 10</div>
+    <div class="flashcard-scene" id="fc-scene" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <span class="card-hint">Французька</span>
+          <span class="card-word-fr" id="fc-fr"></span>
+          <span class="card-note" id="fc-note"></span>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <span class="card-hint">Українська</span>
+          <span class="card-word-ua" id="fc-ua"></span>
+        </div>
+      </div>
+    </div>
+    <p class="flip-hint">👆 Клацни, щоб перегорнути</p>
+    <div class="flashcard-nav">
+      <button class="btn-nav" id="fc-prev" onclick="fcMove(-1)">← Назад</button>
+      <button class="btn-nav" id="fc-next" onclick="fcMove(1)">Вперед →</button>
+    </div>
+  </div>
+
+  <div class="btn-row" style="margin-top:2rem">
+    <button class="btn-secondary" onclick="goTo(1)">← Назад</button>
+    <button class="btn-primary" onclick="goTo(3)">Далі: Вікторина →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 3 — QUIZ
+══════════════════════════════════════════ -->
+<div class="section" id="sec-3">
+  <h2 class="section-heading">Вікторина</h2>
+  <p class="section-intro">Обери правильний переклад для кожної фрази.</p>
+  <div id="quiz-container"></div>
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="goTo(2)">← Назад</button>
+    <button class="btn-primary" onclick="goTo(4)">Далі: Пари слів →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 4 — MATCHING
+══════════════════════════════════════════ -->
+<div class="section" id="sec-4">
+  <h2 class="section-heading">Пари слів</h2>
+  <p class="section-intro">З'єднай французьке слово з його українським відповідником. Клацни на французьке, потім на українське.</p>
+
+  <div class="match-wrap">
+    <div class="match-col" id="match-fr"></div>
+    <div class="match-col" id="match-ua"></div>
+  </div>
+  <div class="match-result" id="match-result"></div>
+
+  <div class="btn-row" style="margin-top:1.5rem">
+    <button class="btn-secondary" onclick="goTo(3)">← Назад</button>
+    <button class="btn-primary" onclick="goTo(5)">Далі: Фінальний тест →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 5 — FINAL TEST
+══════════════════════════════════════════ -->
+<div class="section" id="sec-5">
+  <h2 class="section-heading">Фінальний тест</h2>
+  <p class="section-intro">Напиши французький переклад кожної фрази. Натисни «Перевірити» після всіх відповідей.</p>
+  <div id="final-container"></div>
+  <div class="btn-row">
+    <button class="btn-primary" onclick="checkFinal()">Перевірити відповіді ✓</button>
+    <button class="btn-secondary" onclick="goTo(4)">← Назад</button>
+  </div>
+  <div id="final-score" style="margin-top:2rem"></div>
+</div>
+
+<!-- ══ JAVASCRIPT ══ -->
+<script>
+// ── DATA ──────────────────────────────────────────
+const flashcards = [
+  { fr: "Bonjour",            ua: "Доброго дня / Привіт",  note: "офіційно, вдень" },
+  { fr: "Bonsoir",            ua: "Добрий вечір",           note: "після ~18:00" },
+  { fr: "Salut",              ua: "Привіт",                 note: "неофіційно" },
+  { fr: "Au revoir",          ua: "До побачення",           note: "" },
+  { fr: "À bientôt",         ua: "До скорого",             note: "" },
+  { fr: "Je m'appelle…",     ua: "Мене звуть…",            note: "" },
+  { fr: "Tu t'appelles… ?",  ua: "Як тебе звуть?",         note: "" },
+  { fr: "Ça va ?",            ua: "Як справи?",             note: "неофіційно" },
+  { fr: "Comment allez-vous ?", ua: "Як у вас справи?",    note: "офіційно" },
+  { fr: "Merci",              ua: "Дякую",                  note: "" },
+];
+
+const quizData = [
+  { q: "Bonjour",              correct: "Доброго дня", opts: ["Добрий вечір", "Доброго дня", "До побачення", "Привіт (неоф.)"] },
+  { q: "Bonsoir",              correct: "Добрий вечір", opts: ["Доброго дня", "Добрий вечір", "До скорого", "Дякую"] },
+  { q: "Au revoir",            correct: "До побачення", opts: ["До скорого", "До побачення", "Доброго дня", "Як справи?"] },
+  { q: "Ça va ?",              correct: "Як справи?",   opts: ["Мене звуть", "Як у вас справи?", "Як справи?", "Добрий вечір"] },
+  { q: "Je m'appelle…",       correct: "Мене звуть…",  opts: ["Як тебе звуть?", "Мене звуть…", "Як справи?", "Будь ласка"] },
+  { q: "Comment allez-vous ?",correct: "Як у вас справи?", opts: ["Як справи?", "Як у вас справи?", "До побачення", "Дякую"] },
+  { q: "Merci",                correct: "Дякую",        opts: ["Будь ласка", "До побачення", "Дякую", "Привіт"] },
+  { q: "Salut",                correct: "Привіт (неоф.)", opts: ["Доброго дня", "Добрий вечір", "Привіт (неоф.)", "До скорого"] },
+];
+
+const matchData = [
+  { fr: "Bonjour",         ua: "Доброго дня" },
+  { fr: "Bonsoir",         ua: "Добрий вечір" },
+  { fr: "Salut",           ua: "Привіт" },
+  { fr: "Au revoir",       ua: "До побачення" },
+  { fr: "À bientôt",      ua: "До скорого" },
+  { fr: "Ça va ?",         ua: "Як справи?" },
+  { fr: "Merci",           ua: "Дякую" },
+  { fr: "Je m'appelle…",  ua: "Мене звуть…" },
+];
+
+const finalData = [
+  { ua: "Доброго дня",     answer: "bonjour" },
+  { ua: "Добрий вечір",    answer: "bonsoir" },
+  { ua: "Привіт (неоф.)",  answer: "salut" },
+  { ua: "До побачення",    answer: "au revoir" },
+  { ua: "До скорого",      answer: "à bientôt" },
+  { ua: "Як справи?",      answer: "ça va" },
+  { ua: "Мене звуть…",    answer: "je m'appelle" },
+  { ua: "Дякую",           answer: "merci" },
+];
+
+// ── NAV ───────────────────────────────────────────
+const steps = document.querySelectorAll('.step-btn');
+const sections = document.querySelectorAll('.section');
+let completed = new Set();
+
+function goTo(i) {
+  steps.forEach((s,idx) => {
+    s.classList.remove('active');
+    if (completed.has(idx)) s.classList.add('completed');
+  });
+  sections.forEach(s => s.classList.remove('active'));
+  steps[i].classList.add('active');
+  sections[i].classList.add('active');
+  if (i > 0) { completed.add(i-1); steps[i-1].classList.add('completed'); }
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── FLASHCARDS ────────────────────────────────────
+let fcIdx = 0;
+function renderCard() {
+  const c = flashcards[fcIdx];
+  document.getElementById('fc-fr').textContent   = c.fr;
+  document.getElementById('fc-ua').textContent   = c.ua;
+  document.getElementById('fc-note').textContent = c.note;
+  document.getElementById('fc-counter').textContent = `Картка ${fcIdx+1} з ${flashcards.length}`;
+  document.getElementById('fc-scene').classList.remove('flipped');
+  document.getElementById('fc-prev').disabled = fcIdx === 0;
+  document.getElementById('fc-next').disabled = fcIdx === flashcards.length - 1;
+}
+function flipCard()  { document.getElementById('fc-scene').classList.toggle('flipped'); }
+function fcMove(d)   { fcIdx = Math.max(0, Math.min(flashcards.length-1, fcIdx+d)); renderCard(); }
+renderCard();
+
+// ── QUIZ ──────────────────────────────────────────
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  quizData.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+    div.innerHTML = `
+      <div class="q-text">Що означає: <span class="q-fr">${q.q}</span></div>
+      <div class="options" id="opts-${qi}">
+        ${shuffled.map(o => `<button class="opt-btn" onclick="checkOpt(this,'${o.replace(/'/g,"\\'")}','${q.correct.replace(/'/g,"\\'")}',${qi})">${o}</button>`).join('')}
+      </div>
+      <div class="q-feedback" id="fb-${qi}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+function checkOpt(btn, chosen, correct, qi) {
+  const opts = document.querySelectorAll(`#opts-${qi} .opt-btn`);
+  opts.forEach(b => { b.disabled = true; if (b.textContent === correct) b.classList.add('correct'); });
+  const fb = document.getElementById(`fb-${qi}`);
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ Правильно!'; fb.className = 'q-feedback ok';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = `✗ Правильна відповідь: ${correct}`; fb.className = 'q-feedback bad';
+  }
+}
+buildQuiz();
+
+// ── MATCHING ──────────────────────────────────────
+let matchSelected = null;
+let matchDone = 0;
+function buildMatch() {
+  const frCol = document.getElementById('match-fr');
+  const uaCol = document.getElementById('match-ua');
+  frCol.innerHTML = ''; uaCol.innerHTML = '';
+  const shuffledUA = [...matchData].sort(() => Math.random() - 0.5);
+  matchData.forEach(pair => {
+    const f = document.createElement('div');
+    f.className = 'match-item fr-item';
+    f.textContent = pair.fr;
+    f.dataset.fr = pair.fr;
+    f.onclick = () => selectMatch(f, 'fr');
+    frCol.appendChild(f);
+  });
+  shuffledUA.forEach(pair => {
+    const u = document.createElement('div');
+    u.className = 'match-item';
+    u.textContent = pair.ua;
+    u.dataset.ua = pair.ua;
+    u.onclick = () => selectMatch(u, 'ua');
+    uaCol.appendChild(u);
+  });
+  matchDone = 0;
+  matchSelected = null;
+}
+
+function selectMatch(el, side) {
+  if (el.classList.contains('matched-ok')) return;
+  if (!matchSelected) {
+    document.querySelectorAll('.match-item.selected').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    matchSelected = { el, side };
+  } else {
+    if (matchSelected.side === side) {
+      document.querySelectorAll('.match-item.selected').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+      matchSelected = { el, side };
+      return;
+    }
+    const frEl = side === 'fr' ? el : matchSelected.el;
+    const uaEl = side === 'ua' ? el : matchSelected.el;
+    const frVal = frEl.dataset.fr;
+    const uaVal = uaEl.dataset.ua;
+    const correct = matchData.find(p => p.fr === frVal && p.ua === uaVal);
+    if (correct) {
+      frEl.classList.add('matched-ok'); uaEl.classList.add('matched-ok');
+      frEl.classList.remove('selected'); uaEl.classList.remove('selected');
+      matchDone++;
+      if (matchDone === matchData.length)
+        document.getElementById('match-result').textContent = '🎉 Чудово! Усі пари знайдено!';
+    } else {
+      frEl.classList.add('matched-err'); uaEl.classList.add('matched-err');
+      setTimeout(() => {
+        frEl.classList.remove('matched-err','selected');
+        uaEl.classList.remove('matched-err','selected');
+      }, 800);
+    }
+    matchSelected = null;
+  }
+}
+buildMatch();
+
+// ── FINAL TEST ────────────────────────────────────
+function buildFinal() {
+  const container = document.getElementById('final-container');
+  container.innerHTML = '';
+  finalData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'final-q';
+    div.innerHTML = `
+      <div class="q-text">${i+1}. «${item.ua}» — французькою:</div>
+      <input class="final-input" id="fin-${i}" type="text" placeholder="Введи відповідь…" autocomplete="off"/>
+      <div class="q-feedback" id="fin-fb-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function checkFinal() {
+  let score = 0;
+  finalData.forEach((item, i) => {
+    const input = document.getElementById(`fin-${i}`);
+    const fb    = document.getElementById(`fin-fb-${i}`);
+    const val   = input.value.trim().toLowerCase().replace(/[?!]/g,'');
+    const ans   = item.answer.toLowerCase().replace(/[?!]/g,'');
+    if (val === ans || val === ans.replace(/…/g,'').trim()) {
+      input.classList.add('correct'); input.classList.remove('wrong');
+      fb.textContent = '✓ Правильно!'; fb.className = 'q-feedback ok';
+      score++;
+    } else {
+      input.classList.add('wrong'); input.classList.remove('correct');
+      fb.textContent = `✗ Правильно: ${item.answer}`; fb.className = 'q-feedback bad';
+    }
+  });
+  const total = finalData.length;
+  const pct = Math.round(score/total*100);
+  let emoji = pct === 100 ? '🏆' : pct >= 70 ? '🌟' : '💪';
+  let msg   = pct === 100 ? 'Parfait! Ти знаєш усі слова!' : pct >= 70 ? 'Дуже добре! Ще трохи практики — і будеш ідеальним!' : 'Не здавайся! Повторай картки та спробуй ще раз.';
+  document.getElementById('final-score').innerHTML = `
+    <div class="score-box">
+      <div class="score-emoji">${emoji}</div>
+      <div class="score-num">${score}/${total}</div>
+      <div class="score-label">${pct}% правильних відповідей</div>
+      <div class="score-msg">${msg}</div>
+    </div>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn-primary" href="../index.html">← До всіх уроків</a>
+      <a class="btn-secondary" href="lesson2.html">Leçon 2 →</a>
+    </div>
+  `;
+  document.getElementById('final-score').scrollIntoView({behavior:'smooth'});
+}
+buildFinal();
+</script>
+</body>
+</html>
