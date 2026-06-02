@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Allons-y! — Французька для початківців</title>
+  <title>Allons-y! — Французька для українців</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,6 +62,7 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      text-decoration: none;
     }
     .logo span { color: var(--red); font-style: italic; }
 
@@ -208,8 +209,50 @@
       position: relative;
       width: 100%;
     }
+    .split-top {
+      background: var(--ua-blue);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+    .split-bottom {
+      background: var(--ua-yellow);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 0;
+      flex: 1;
+      overflow: hidden;
+    }
 
-    
+    .word-half {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      line-height: 1;
+      letter-spacing: -2px;
+      display: block;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s forwards;
+      /* use overflow hidden on parent + negative margin to split */
+      white-space: nowrap;
+    }
+    /* top half: white text, show only top 50% */
+    .word-top {
+      color: white;
+      margin-bottom: calc(-0.5em);
+      padding-bottom: 0;
+    }
+    /* bottom half: ua-blue text, show only bottom 50% */
+    .word-bottom {
+      color: var(--ua-blue);
+      margin-top: calc(-0.5em);
+      padding-top: 0;
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -233,174 +276,212 @@
     .pip.active { background: var(--ua-yellow); border: 1.5px solid #b89800; }
 
     /* ── LESSONS ── */
+    /* ── SECTION LABEL — full-width dark-blue divider ── */
     .section-label {
-      padding: 3rem 3rem 1.2rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
+      width: 100%;
+      background: rgba(0, 91, 187, 0.5); /* ua-blue at 50% */
+      color: white;
+      padding: 0.75rem 3rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--mid);
-      font-weight: 500;
+      font-weight: 600;
     }
 
+    /* ── TILES GRID ── */
     .lessons-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5px;
-      background: #e0d8cc;
-      border-top: 1.5px solid #e0d8cc;
-      border-bottom: 1.5px solid #e0d8cc;
-      margin: 0 3rem 3rem;
-      border-radius: 2px;
-      overflow: hidden;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 2rem 3rem 3rem;
     }
 
+    /* ── TILE ── */
     .lesson-card {
-      background: var(--cream);
-      padding: 2rem;
+      background: white;
+      border: 1.5px solid #e0d8cc;
+      border-radius: 8px;
+      padding: 1.5rem 1.2rem 1.2rem;
       cursor: pointer;
       text-decoration: none;
       color: var(--ink);
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      transition: background 0.2s;
+      align-items: flex-start;
+      gap: 0.5rem;
+      transition: box-shadow 0.2s, transform 0.15s;
       position: relative;
       overflow: hidden;
+      min-height: 160px;
     }
-    .lesson-card:hover { background: var(--soft); }
-    .lesson-card:hover .card-arrow { transform: translateX(4px); }
+    .lesson-card:hover {
+      box-shadow: 0 6px 24px rgba(0,91,187,0.12);
+      transform: translateY(-2px);
+    }
+    /* top colour bar per state */
     .lesson-card::before {
       content: '';
       position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
+      top: 0; left: 0; right: 0;
+      height: 4px;
     }
-    .lesson-card.open::before   { background: var(--ua-blue); }
     .lesson-card.done::before   { background: #2e7d32; }
+    .lesson-card.open::before   { background: var(--ua-blue); }
     .lesson-card.locked::before { background: #ddd; }
 
+    .lesson-card.locked {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
     .card-number {
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.15em;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--mid);
     }
     .card-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      line-height: 1.25;
-    }
-    .card-sub-ua {
-      font-size: 0.88rem;
-      color: var(--ink);
-      font-weight: 400;
-      line-height: 1.5;
+      line-height: 1.3;
     }
     .card-sub-fr {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--mid);
       font-style: italic;
       line-height: 1.4;
+      margin-top: auto;
     }
-
-    .card-tags {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      margin-top: 0.4rem;
-    }
-    .tag {
-      font-size: 0.68rem;
-      font-weight: 500;
-      padding: 0.22rem 0.6rem;
-      border-radius: 20px;
-    }
-    .tag-mc    { background: #e8eeff; color: var(--blue); }
-    .tag-flash { background: #fff8d6; color: #7a5c00; }
-    .tag-match { background: #fde8ea; color: #9b1323; }
+    /* hide Ukrainian subtitle & tags on tiles — too much text */
+    .card-sub-ua { display: none; }
+    .card-tags   { display: none; }
 
     .card-status {
       position: absolute;
-      top: 1.2rem; right: 1.2rem;
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem;
+      top: 0.8rem; right: 0.8rem;
+      font-size: 0.85rem;
     }
-    .status-locked { background: #eee; color: #aaa; }
-    .status-open   { background: #dceeff; color: var(--ua-blue); }
-    .status-done   { background: #e8f5e9; color: #2e7d32; }
+    .status-locked { color: #bbb; }
+    .status-open   { color: var(--ua-blue); }
+    .status-done   { color: #2e7d32; }
 
     .card-arrow {
-      margin-top: auto;
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: var(--ua-yellow);
+      margin-top: auto;
       transition: transform 0.2s;
     }
+    .lesson-card:hover .card-arrow { transform: translateX(3px); }
 
+    /* ── FOOTER — coloured bar ── */
     footer {
-      border-top: 1.5px solid #e0d8cc;
-      padding: 1.5rem 3rem;
+      background: rgba(0, 91, 187, 0.5);
+      padding: 1.2rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 0.8rem;
-      color: var(--mid);
+      color: white;
+      font-weight: 500;
     }
 
+    /* ── HAMBURGER BUTTON ── */
+    .burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 200;
+    }
+    .burger span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE DROPDOWN NAV ── */
     @media (max-width: 700px) {
       header { padding: 1rem 1.2rem; }
       .hero { grid-template-columns: 1fr; }
       .hero-visual { min-height: 200px; }
-      .hero-text { padding: 2.5rem 1.2rem 2rem; }
-      .lessons-grid { margin: 0 1.2rem 2rem; }
-      .section-label { padding: 2rem 1.2rem 0.8rem; }
+      .hero-text { padding: 2.5rem 1.2rem 2rem !important; }
+      .lessons-grid { margin: 1.2rem 1.2rem 2rem; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+      .section-label { padding: 0.6rem 1.2rem; }
       .progress-bar { padding: 0.8rem 1.2rem; }
-      footer { padding: 1rem 1.2rem; flex-direction: column; gap: 0.4rem; text-align: center; }
+      footer { padding: 1rem 1.2rem; flex-direction: column; gap: 0.3rem; text-align: center; }
       .word-half { font-size: clamp(2.5rem, 12vw, 4rem); }
+
+      .burger { display: flex; }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0; right: 0;
+        background: var(--cream);
+        border-bottom: 1.5px solid #e0d8cc;
+        flex-direction: column;
+        padding: 0.5rem 0 1rem;
+        z-index: 150;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      }
+      nav.open { display: flex; }
+      nav a {
+        margin: 0;
+        padding: 0.85rem 1.5rem;
+        font-size: 0.95rem;
+        border-bottom: 1px solid #f0ebe1;
+      }
+      nav a:last-child { border-bottom: none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="lang-strip">
-    🇺🇦 Інтерфейс українською
-    <span class="divider">|</span>
-    🇫🇷 Contenu en français
-  </div>
-
-  <header>
-    <div class="logo">
+  <header style="position: sticky; top: 0; z-index: 100; background: var(--cream);">
+    <a class="logo" href="index.html">
       🇺🇦🇫🇷 Allons-y!
-    </div>
-    <nav>
+    </a>
+    <button class="burger" id="burger" onclick="toggleNav()" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="main-nav">
       <a href="index.html">Уроки</a>
+      <a href="#">Прогрес</a>
+      <a href="#">Поширені питання</a>
+      <a href="#">Про нас</a>
     </nav>
   </header>
 
-  <section class="hero">
-    <div class="hero-text">
+  <section class="hero" style="grid-template-columns: 1fr;">
+    <div class="hero-text" style="padding: 5rem 3rem 4rem; max-width: 640px;">
       <p class="hero-eyebrow">🇺🇦 Французька для початківців 🇫🇷</p>
       <h1 class="hero-title">
         Вивчай<br>
         <em>французьку</em><br>
-        у своєму темпі
+        крок за кроком
       </h1>
       <p class="hero-sub">Інтерактивні уроки, флеш-картки, вікторини та ігри зі словами — все в одному місці.</p>
+      <p class="hero-sub-fr">Des leçons interactives, des flashcards et des quiz — tout en un.</p>
       <a class="btn-start" href="lessons/lesson1.html">Почати Leçon 1 →</a>
     </div>
+  </section>
 
-  <div class="progress-bar">
-    <span>Ваш прогрес</span>
-    <span class="pip done"></span>
-    <span class="pip active"></span>
-    <span class="pip"></span>
-    <span class="pip"></span>
-    <span class="pip"></span>
-    <span style="margin-left:0.5rem; color: var(--ua-blue);">Leçon 1 завершено ✓</span>
-  </div>
 
   <div class="section-label">Усі уроки</div>
 
@@ -410,68 +491,38 @@
       <div class="card-status status-done">✓</div>
       <div class="card-number">Leçon 1</div>
       <div class="card-title">Привітання та знайомство</div>
-      <div class="card-sub-ua">Як сказати «привіт», «до побачення», «мене звуть…»</div>
       <div class="card-sub-fr">Bonjour, au revoir, je m'appelle…</div>
-      <div class="card-tags">
-        <span class="tag tag-flash">Флеш-картки</span>
-        <span class="tag tag-mc">Вікторина</span>
-      </div>
-      <div class="card-arrow">→</div>
-    </a>
-<!--
-    <a class="lesson-card open" href="lessons/lesson2.html">
-      <div class="card-status status-open">▶</div>
-      <div class="card-number">Leçon 2</div>
-      <div class="card-title">Числа та кольори</div>
-      <div class="card-sub-ua">Рахуй до 20 і називай кольори французькою.</div>
-      <div class="card-sub-fr">Les chiffres et les couleurs — jusqu'à 20.</div>
-      <div class="card-tags">
-        <span class="tag tag-match">Пари слів</span>
-        <span class="tag tag-mc">Вікторина</span>
-      </div>
       <div class="card-arrow">→</div>
     </a>
 
-    <a class="lesson-card locked" href="lessons/lesson3.html">
+    <div class="lesson-card locked">
+      <div class="card-status status-locked">🔒</div>
+      <div class="card-number">Leçon 2</div>
+      <div class="card-title">Числа та кольори</div>
+      <div class="card-sub-fr">Les chiffres et les couleurs</div>
+    </div>
+
+    <div class="lesson-card locked">
       <div class="card-status status-locked">🔒</div>
       <div class="card-number">Leçon 3</div>
       <div class="card-title">Сім'я та люди</div>
-      <div class="card-sub-ua">Мама, тато, брат, сестра — сімейні слова французькою.</div>
-      <div class="card-sub-fr">La famille — mère, père, frère, sœur…</div>
-      <div class="card-tags">
-        <span class="tag tag-flash">Флеш-картки</span>
-        <span class="tag tag-match">Пари слів</span>
-      </div>
-      <div class="card-arrow" style="color:#ccc;">→</div>
-    </a>
+      <div class="card-sub-fr">La famille</div>
+    </div>
 
-    <a class="lesson-card locked" href="lessons/lesson4.html">
+    <div class="lesson-card locked">
       <div class="card-status status-locked">🔒</div>
       <div class="card-number">Leçon 4</div>
       <div class="card-title">Їжа та напої</div>
-      <div class="card-sub-ua">Замов у кафе: хліб, каву, воду — французькою!</div>
-      <div class="card-sub-fr">Du pain, du café, de l'eau — s'il vous plaît!</div>
-      <div class="card-tags">
-        <span class="tag tag-flash">Флеш-картки</span>
-        <span class="tag tag-mc">Вікторина</span>
-        <span class="tag tag-match">Пари слів</span>
-      </div>
-      <div class="card-arrow" style="color:#ccc;">→</div>
-    </a>
+      <div class="card-sub-fr">La nourriture</div>
+    </div>
 
-    <a class="lesson-card locked" href="lessons/lesson5.html">
+    <div class="lesson-card locked">
       <div class="card-status status-locked">🔒</div>
       <div class="card-number">Leçon 5</div>
       <div class="card-title">Дні, місяці та час</div>
-      <div class="card-sub-ua">Котра година? Скажи час і поговори про тиждень.</div>
-      <div class="card-sub-fr">Quelle heure est-il? Les jours et les mois.</div>
-      <div class="card-tags">
-        <span class="tag tag-mc">Вікторина</span>
-        <span class="tag tag-match">Пари слів</span>
-      </div>
-      <div class="card-arrow" style="color:#ccc;">→</div>
-    </a>
--->
+      <div class="card-sub-fr">Les jours et les mois</div>
+    </div>
+
   </div>
 
   <footer>
@@ -479,5 +530,20 @@
     <div>Усі уроки безкоштовні</div>
   </footer>
 
+<script>
+  function toggleNav() {
+    const nav = document.getElementById('main-nav');
+    const burger = document.getElementById('burger');
+    nav.classList.toggle('open');
+    burger.classList.toggle('open');
+  }
+  // Close nav when a link is clicked on mobile
+  document.querySelectorAll('#main-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('main-nav').classList.remove('open');
+      document.getElementById('burger').classList.remove('open');
+    });
+  });
+</script>
 </body>
 </html>
